@@ -1,17 +1,16 @@
 package com.edu.lms.controller;
 
 import com.edu.lms.dto.CourseResponseDTO;
+import com.edu.lms.model.Course;
 import com.edu.lms.service.ICourseService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/courses")
+@RequestMapping("/course")
 public class CourseController {
 
     private final ICourseService courseService;
@@ -29,5 +28,16 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     public List<CourseResponseDTO> getAllCourses() {
         return courseService.getAllCourses();
+    }
+
+    /**
+     * KMDEV-11
+     * An API for getting the course by the given course code.
+     * @return course
+     */
+    @GetMapping("{courseCode}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Course> getCourseByCourseCode(@PathVariable Long courseCode) {
+        return courseService.getCourseByCourseCode(courseCode);
     }
 }
