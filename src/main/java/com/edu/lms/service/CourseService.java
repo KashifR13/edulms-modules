@@ -1,9 +1,11 @@
 package com.edu.lms.service;
 
+import com.edu.lms.dto.CourseRequestDTO;
 import com.edu.lms.dto.CourseResponseDTO;
 import com.edu.lms.exception.CourseException;
 import com.edu.lms.model.Course;
 import com.edu.lms.repository.CourseRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class CourseService implements ICourseService {
 
@@ -18,6 +21,22 @@ public class CourseService implements ICourseService {
 
     public CourseService(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
+    }
+
+    @Override
+    public void createNewCourse(CourseRequestDTO courseRequestDTO) {
+        Course course = Course.
+                builder().
+                courseCode(courseRequestDTO.getCourseCode()).
+                courseName(courseRequestDTO.getCourseName()).
+                languageOfLearning(courseRequestDTO.getLanguageOfLearning()).
+                gradingScale(courseRequestDTO.getGradingScale()).
+                courseLevel(courseRequestDTO.getCourseLevel()).
+                hasPrerequisite(courseRequestDTO.isHasPrerequisite()).
+                build();
+
+        courseRepository.save(course);
+        log.info("A new course with the course code {} is added.", course.getCourseCode());
     }
 
     @Override
