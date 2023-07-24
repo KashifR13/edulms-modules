@@ -1,5 +1,6 @@
 package com.edu.lms.controller;
 
+import com.edu.lms.dto.CourseRequestDTO;
 import com.edu.lms.dto.CourseResponseDTO;
 import com.edu.lms.model.Course;
 import com.edu.lms.service.ICourseService;
@@ -40,4 +41,12 @@ public class CourseController {
     public Optional<Course> getCourseByCourseCode(@PathVariable Long courseCode) {
         return courseService.getCourseByCourseCode(courseCode);
     }
+
+    @PostMapping("new-course")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addNewCourse(@RequestBody CourseRequestDTO courseRequestDTO) {
+        courseService.createNewCourse(courseRequestDTO);
+    }
+
+
 }
